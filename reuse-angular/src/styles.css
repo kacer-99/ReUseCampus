@@ -1,0 +1,131 @@
+/* Estilos globales compartidos por todos los componentes */
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #f1f3f5;
+  color: #212529;
+}
+
+main { padding: 2rem; max-width: 1200px; margin: 0 auto; }
+
+/* Cabecera y menú */
+.cabecera {
+  background: #198754;
+  color: white;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.cabecera h1 { margin: 0; font-size: 1.6rem; }
+.cabecera p { margin: 4px 0 0; opacity: 0.9; }
+.sesion { display: flex; align-items: center; gap: 12px; }
+
+.menu {
+  background: #146c43;
+  padding: 0 2rem;
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+.menu a {
+  color: white;
+  text-decoration: none;
+  padding: 12px 14px;
+}
+.menu a:hover, .menu a.activo { background: #0f5132; }
+
+/* Botones */
+.btn {
+  display: inline-block;
+  padding: 8px 14px;
+  border: 0;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  text-decoration: none;
+  cursor: pointer;
+  color: white;
+  background: #0d6efd;
+  margin-right: 4px;
+}
+.btn-verde { background: #198754; }
+.btn-amarillo { background: #ffc107; color: #000; }
+.btn-rojo { background: #dc3545; }
+.btn-gris { background: #6c757d; }
+.btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+/* Tarjetas y formularios */
+.tarjeta {
+  max-width: 650px;
+  margin: 1rem auto;
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.tarjeta.ancha { max-width: none; }
+.campo { margin-bottom: 1rem; }
+.campo label { display: block; font-weight: bold; margin-bottom: 5px; }
+.campo input, .campo select, .campo textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #adb5bd;
+  border-radius: 4px;
+  font: inherit;
+}
+.campo small { display: block; margin-top: 4px; color: #dc3545; }
+.botones { display: flex; gap: 10px; margin-top: 1.5rem; }
+.filtros {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  background: white;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+.filtros .campo { margin-bottom: 0; min-width: 160px; }
+.filtros .botones { margin-top: 0; }
+.ayuda { color: #6c757d; font-size: 0.85rem; margin-top: 1.5rem; }
+.datos { list-style: none; padding: 0; }
+.datos li { margin-bottom: 4px; }
+
+/* Mensajes */
+.mensaje { padding: 12px 16px; border-radius: 4px; margin: 1rem 0; }
+.mensaje-error { background: #f8d7da; color: #842029; border: 1px solid #f5c2c7; }
+.mensaje-ok { background: #d1e7dd; color: #0f5132; border: 1px solid #badbcc; }
+
+/* Tablas */
+.tabla {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-top: 1rem;
+}
+.tabla th { background: #198754; color: white; text-align: left; padding: 10px; }
+.tabla td { padding: 10px; border-bottom: 1px solid #dee2e6; vertical-align: middle; }
+.tabla .vacio { text-align: center; color: #6c757d; padding: 20px; }
+
+/* Distintivos de estado */
+.estado {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: white;
+  background: #6c757d;
+}
+.estado-disponible, .estado-aceptada, .estado-completada { background: #198754; }
+.estado-pendiente, .estado-reservada { background: #fd7e14; }
+.estado-entregada { background: #0d6efd; }
+.estado-cancelada, .estado-rechazada { background: #dc3545; }

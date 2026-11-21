@@ -1,0 +1,8 @@
+<nav class="menu">
+  @if (auth.usuario()) {
+    <a routerLink="/publicaciones" routerLinkActive="activo">📦 Publicaciones</a>
+  } @else {
+    <a routerLink="/login" routerLinkActive="activo">🔑 Iniciar sesión</a>
+    <a routerLink="/registro" routerLinkActive="activo">📝 Registrarse</a>
+  }
+</nav>

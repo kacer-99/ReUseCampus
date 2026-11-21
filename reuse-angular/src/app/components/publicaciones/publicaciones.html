@@ -1,0 +1,83 @@
+<section>
+  <h2>📦 Publicaciones</h2>
+
+  <form class="filtros" [formGroup]="filtros" (ngSubmit)="cargar()">
+    <div class="campo">
+      <label for="estado">Estado</label>
+      <select id="estado" formControlName="estado">
+        <option value="">Todos</option>
+        @for (estado of estados; track estado) {
+          <option [value]="estado">{{ estado }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="campo">
+      <label for="categoria">Categoría</label>
+      <select id="categoria" formControlName="categoria">
+        <option value="">Todas</option>
+        @for (categoria of categorias; track categoria) {
+          <option [value]="categoria">{{ categoria }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="campo">
+      <label for="modalidad">Modalidad</label>
+      <select id="modalidad" formControlName="modalidad">
+        <option value="">Todas</option>
+        @for (modalidad of modalidades; track modalidad) {
+          <option [value]="modalidad">{{ modalidad }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="botones">
+      <button type="submit" class="btn">Filtrar</button>
+      <button type="button" class="btn btn-gris" (click)="limpiarFiltros()">Limpiar</button>
+    </div>
+  </form>
+
+  @if (cargando) {
+    <p>Cargando publicaciones...</p>
+  }
+
+  @if (error) {
+    <div class="mensaje mensaje-error">{{ error }}</div>
+  }
+
+  @if (!cargando && !error) {
+    <table class="tabla">
+      <thead>
+        <tr>
+          <th>Título</th>
+          <th>Categoría</th>
+          <th>Modalidad</th>
+          <th>Propietario</th>
+          <th>Fecha</th>
+          <th>Pendientes</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (publicacion of publicaciones; track publicacion.id) {
+          <tr>
+            <td>{{ publicacion.titulo }}</td>
+            <td>{{ publicacion.categoria }}</td>
+            <td>{{ publicacion.modalidad }}</td>
+            <td>{{ publicacion.propietarioNombre }}</td>
+            <td>{{ publicacion.fechaPublicacion | date: 'dd/MM/yyyy' }}</td>
+            <td>{{ publicacion.solicitudesPendientes }}</td>
+            <td><span class="estado estado-{{ clase(publicacion.estado) }}">{{ publicacion.estado }}</span></td>
+            <td><a [routerLink]="['/publicaciones', publicacion.id]" class="btn">Ver</a></td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="8" class="vacio">No hay publicaciones con esos filtros.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</section>

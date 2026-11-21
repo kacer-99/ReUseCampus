@@ -1,0 +1,13 @@
+<header class="cabecera">
+  <div>
+    <h1>♻️ ReUse Campus</h1>
+    <p>Dona o intercambia artículos entre estudiantes</p>
+  </div>
+
+  @if (auth.usuario(); as usuario) {
+    <div class="sesion">
+      <span>Hola, <strong>{{ usuario.nombre }}</strong> ({{ usuario.rol }})</span>
+      <button type="button" class="btn btn-gris" (click)="cerrarSesion()">Cerrar sesión</button>
+    </div>
+  }
+</header>
