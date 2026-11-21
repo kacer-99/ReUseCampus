@@ -1,0 +1,88 @@
+<section>
+  <a routerLink="/publicaciones" class="btn btn-gris">← Volver</a>
+
+  @if (cargando) {
+    <p>Cargando publicación...</p>
+  }
+
+  @if (error) {
+    <div class="mensaje mensaje-error">{{ error }}</div>
+  }
+
+  @if (exito) {
+    <div class="mensaje mensaje-ok">{{ exito }}</div>
+  }
+
+  @if (publicacion; as pub) {
+    <div class="tarjeta ancha">
+      <h2>{{ pub.titulo }} <span class="estado estado-{{ clase(pub.estado) }}">{{ pub.estado }}</span></h2>
+      <p>{{ pub.descripcion }}</p>
+      <ul class="datos">
+        <li><strong>Categoría:</strong> {{ pub.categoria }}</li>
+        <li><strong>Modalidad:</strong> {{ pub.modalidad }}</li>
+        <li><strong>Propietario:</strong> {{ pub.propietarioNombre }}</li>
+        <li><strong>Publicada:</strong> {{ pub.fechaPublicacion | date: 'dd/MM/yyyy HH:mm' }}</li>
+      </ul>
+
+      @if (esPropietario && pub.estado === 'DISPONIBLE') {
+        <a [routerLink]="['/publicaciones/editar', pub.id]" class="btn btn-amarillo">Editar</a>
+      }
+      @if (puedeCancelar) {
+        <button type="button" class="btn btn-rojo" (click)="cancelarPublicacion()">Cancelar publicación</button>
+      }
+    </div>
+
+    @if (puedeSolicitar) {
+      <div class="tarjeta ancha">
+        <h3>📨 Solicitar este artículo</h3>
+        <form [formGroup]="formulario" (ngSubmit)="solicitar()">
+          <div class="campo">
+            <label for="mensaje">Mensaje para el propietario *</label>
+            <textarea id="mensaje" rows="3" formControlName="mensaje" placeholder="Por qué lo necesitas"></textarea>
+            @if (formulario.controls.mensaje.touched && formulario.controls.mensaje.invalid) {
+              <small>Escriba un mensaje (mínimo 3 caracteres).</small>
+            }
+          </div>
+          <button type="submit" class="btn btn-verde">Enviar solicitud</button>
+        </form>
+      </div>
+    }
+
+    @if (esPropietario || auth.esAdministrador()) {
+      <div class="tarjeta ancha">
+        <h3>Solicitudes recibidas</h3>
+        <table class="tabla">
+          <thead>
+            <tr>
+              <th>Solicitante</th>
+              <th>Mensaje</th>
+              <th>Fecha</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (solicitud of solicitudes; track solicitud.id) {
+              <tr>
+                <td>{{ solicitud.solicitanteNombre }}</td>
+                <td>{{ solicitud.mensaje }}</td>
+                <td>{{ solicitud.fechaSolicitud | date: 'dd/MM/yyyy HH:mm' }}</td>
+                <td><span class="estado estado-{{ clase(solicitud.estado) }}">{{ solicitud.estado }}</span></td>
+                <td>
+                  @if (esPropietario && solicitud.estado === 'PENDIENTE' && pub.estado === 'DISPONIBLE') {
+                    <button type="button" class="btn btn-verde" (click)="aceptar(solicitud)">Aceptar</button>
+                    <button type="button" class="btn btn-rojo" (click)="rechazar(solicitud)">Rechazar</button>
+                  }
+                </td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="5" class="vacio">Aún no hay solicitudes.</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  }
+</section>

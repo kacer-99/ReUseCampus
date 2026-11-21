@@ -1,0 +1,52 @@
+<section>
+  <h2>🤝 Entregas</h2>
+
+  @if (cargando) {
+    <p>Cargando...</p>
+  }
+
+  @if (error) {
+    <div class="mensaje mensaje-error">{{ error }}</div>
+  }
+
+  @if (exito) {
+    <div class="mensaje mensaje-ok">{{ exito }}</div>
+  }
+
+  @if (!cargando) {
+    <table class="tabla">
+      <thead>
+        <tr>
+          <th>Publicación</th>
+          <th>Propietario</th>
+          <th>Receptor</th>
+          <th>Acuerdo</th>
+          <th>Entrega</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (entrega of entregas; track entrega.id) {
+          <tr>
+            <td><a [routerLink]="['/publicaciones', entrega.publicacionId]">{{ entrega.publicacionTitulo }}</a></td>
+            <td>{{ entrega.propietarioNombre }}</td>
+            <td>{{ entrega.receptorNombre }}</td>
+            <td>{{ entrega.fechaAcuerdo | date: 'dd/MM/yyyy' }}</td>
+            <td>{{ entrega.fechaEntrega ? (entrega.fechaEntrega | date: 'dd/MM/yyyy') : '-' }}</td>
+            <td><span class="estado estado-{{ clase(entrega.estado) }}">{{ entrega.estado }}</span></td>
+            <td>
+              @if (puedeConfirmar(entrega)) {
+                <button type="button" class="btn btn-verde" (click)="confirmar(entrega)">Confirmar entrega</button>
+              }
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="7" class="vacio">Aún no tienes entregas.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</section>

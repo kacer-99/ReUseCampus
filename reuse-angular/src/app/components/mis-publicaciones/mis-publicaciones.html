@@ -1,0 +1,54 @@
+<section>
+  <h2>🗂️ Mis publicaciones</h2>
+
+  @if (cargando) {
+    <p>Cargando...</p>
+  }
+
+  @if (error) {
+    <div class="mensaje mensaje-error">{{ error }}</div>
+  }
+
+  @if (exito) {
+    <div class="mensaje mensaje-ok">{{ exito }}</div>
+  }
+
+  @if (!cargando) {
+    <table class="tabla">
+      <thead>
+        <tr>
+          <th>Título</th>
+          <th>Categoría</th>
+          <th>Modalidad</th>
+          <th>Fecha</th>
+          <th>Pendientes</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (publicacion of publicaciones; track publicacion.id) {
+          <tr>
+            <td>{{ publicacion.titulo }}</td>
+            <td>{{ publicacion.categoria }}</td>
+            <td>{{ publicacion.modalidad }}</td>
+            <td>{{ publicacion.fechaPublicacion | date: 'dd/MM/yyyy' }}</td>
+            <td>{{ publicacion.solicitudesPendientes }}</td>
+            <td><span class="estado estado-{{ clase(publicacion.estado) }}">{{ publicacion.estado }}</span></td>
+            <td>
+              <a [routerLink]="['/publicaciones', publicacion.id]" class="btn">Ver</a>
+              @if (publicacion.estado === 'DISPONIBLE') {
+                <a [routerLink]="['/publicaciones/editar', publicacion.id]" class="btn btn-amarillo">Editar</a>
+                <button type="button" class="btn btn-rojo" (click)="cancelar(publicacion)">Cancelar</button>
+              }
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="7" class="vacio">Aún no has publicado nada. <a routerLink="/publicaciones/nueva">Crea tu primera publicación</a>.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</section>

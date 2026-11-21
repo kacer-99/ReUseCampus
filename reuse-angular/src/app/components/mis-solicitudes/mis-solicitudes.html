@@ -1,0 +1,51 @@
+<section>
+  <h2>📨 Mis solicitudes</h2>
+
+  @if (cargando) {
+    <p>Cargando...</p>
+  }
+
+  @if (error) {
+    <div class="mensaje mensaje-error">{{ error }}</div>
+  }
+
+  @if (exito) {
+    <div class="mensaje mensaje-ok">{{ exito }}</div>
+  }
+
+  @if (!cargando) {
+    <table class="tabla">
+      <thead>
+        <tr>
+          <th>Publicación</th>
+          <th>Propietario</th>
+          <th>Mi mensaje</th>
+          <th>Fecha</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (solicitud of solicitudes; track solicitud.id) {
+          <tr>
+            <td>{{ solicitud.publicacionTitulo }}</td>
+            <td>{{ solicitud.propietarioNombre }}</td>
+            <td>{{ solicitud.mensaje }}</td>
+            <td>{{ solicitud.fechaSolicitud | date: 'dd/MM/yyyy HH:mm' }}</td>
+            <td><span class="estado estado-{{ clase(solicitud.estado) }}">{{ solicitud.estado }}</span></td>
+            <td>
+              <a [routerLink]="['/publicaciones', solicitud.publicacionId]" class="btn">Ver</a>
+              @if (solicitud.estado === 'PENDIENTE') {
+                <button type="button" class="btn btn-rojo" (click)="cancelar(solicitud)">Cancelar</button>
+              }
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="6" class="vacio">Aún no has hecho solicitudes.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</section>
