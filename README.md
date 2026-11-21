@@ -88,12 +88,14 @@ Para comprobar solo la conexión: `npm run probar-conexion` (dentro de `backend-
 |---|---|
 | RN01/RN02: la publicación nace DISPONIBLE y su propietario es el usuario con sesión | `backend-reuse/src/rutas/publicaciones.js` (POST) |
 | RN03: no se puede solicitar la propia publicación (403) | `backend-reuse/src/rutas/solicitudes.js` (POST) |
-| RN04: solo se solicita una publicación DISPONIBLE (409) | `backend-reuse/src/rutas/solicitudes.js` (POST) |
+| RN04/RN12/RN15: solo se solicitan publicaciones DISPONIBLES; una RESERVADA o ENTREGADA no recibe solicitudes (409) | `backend-reuse/src/rutas/solicitudes.js` (POST) |
 | RN05: no se permite una segunda solicitud PENDIENTE del mismo usuario (409) | `backend-reuse/src/rutas/solicitudes.js` (POST) |
 | RN06: una publicación puede tener varias solicitudes | `backend-reuse/src/rutas/solicitudes.js` (POST) |
 | RN07: solo el propietario acepta o rechaza (403) | `backend-reuse/src/rutas/solicitudes.js` (PUT `/:id/aceptar`, `/:id/rechazar`) |
-| RN08 a RN11: solo se acepta una solicitud PENDIENTE; la publicación pasa a RESERVADA; las demás solicitudes quedan RECHAZADAS; se crea la Entrega PENDIENTE (en una transacción) | `backend-reuse/src/rutas/solicitudes.js` (PUT `/:id/aceptar`) |
-| RN13/RN14: el propietario confirma; la entrega pasa a COMPLETADA y la publicación a ENTREGADA | `backend-reuse/src/rutas/entregas.js` (PUT `/:id/confirmar`) |
+| RN08: solo una solicitud puede quedar ACEPTADA por publicación | `backend-reuse/src/rutas/solicitudes.js` (PUT `/:id/aceptar`) |
+| RN09/RN10/RN11: al aceptar, la publicación pasa a RESERVADA, las demás solicitudes PENDIENTES pasan a RECHAZADA y se crea la Entrega PENDIENTE (todo en una transacción) | `backend-reuse/src/rutas/solicitudes.js` (PUT `/:id/aceptar`) |
+| RN13: una publicación no pasa de DISPONIBLE a ENTREGADA (solo una RESERVADA puede entregarse; editar no cambia el estado) | `backend-reuse/src/rutas/entregas.js` y `publicaciones.js` (PUT) |
+| RN14: al confirmar, la entrega pasa a COMPLETADA y la publicación a ENTREGADA | `backend-reuse/src/rutas/entregas.js` (PUT `/:id/confirmar`) |
 | RN16: el solicitante solo cancela una solicitud PENDIENTE | `backend-reuse/src/rutas/solicitudes.js` (PUT `/:id/cancelar`) |
 | RN17: no hay borrados físicos, solo cambios de estado | todas las rutas (cancelar publicación, desactivar usuario) |
 | RN18: validación de datos en el backend | `backend-reuse/src/utilidades.js` y cada ruta |
@@ -154,6 +156,6 @@ Usé **Claude (Anthropic)** como asistente durante este proyecto.
 
 **Cómo verifiqué el resultado:** `ng build`, `ng test`, `npm run probar-reglas` y la prueba manual de todo el flujo (publicar, solicitar, aceptar, confirmar entrega y administrar usuarios).
 
-## Cambio de base de datos
+## Elección de la base de datos
 
-Utilice sql server debido al acceso y manejo que tenia con este programa dentro de mi computador.
+Utilicé SQL Server debido al acceso y manejo que tenía con este programa dentro de mi computador. Es una base de datos relacional, por lo que permite las claves primarias y foráneas que exige el enunciado.
