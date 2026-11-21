@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { autenticadoGuard } from './guards/auth-guard';
+import { autenticadoGuard, administradorGuard } from './guards/auth-guard';
 import { LoginComponent } from './components/login/login';
 import { RegistroComponent } from './components/registro/registro';
 import { PublicacionesComponent } from './components/publicaciones/publicaciones';
@@ -8,6 +8,7 @@ import { PublicacionDetalleComponent } from './components/publicacion-detalle/pu
 import { MisPublicacionesComponent } from './components/mis-publicaciones/mis-publicaciones';
 import { MisSolicitudesComponent } from './components/mis-solicitudes/mis-solicitudes';
 import { EntregasComponent } from './components/entregas/entregas';
+import { AdminUsuariosComponent } from './components/admin-usuarios/admin-usuarios';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'publicaciones', pathMatch: 'full' },
@@ -21,5 +22,7 @@ export const routes: Routes = [
   { path: 'mis-publicaciones', component: MisPublicacionesComponent, canActivate: [autenticadoGuard] },
   { path: 'mis-solicitudes', component: MisSolicitudesComponent, canActivate: [autenticadoGuard] },
   { path: 'entregas', component: EntregasComponent, canActivate: [autenticadoGuard] },
+  // Solo el administrador entra a la gestión de usuarios
+  { path: 'admin/usuarios', component: AdminUsuariosComponent, canActivate: [autenticadoGuard, administradorGuard] },
   { path: '**', redirectTo: 'publicaciones' }
 ];

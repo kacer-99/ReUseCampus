@@ -5,6 +5,9 @@
     <a routerLink="/mis-publicaciones" routerLinkActive="activo">🗂️ Mis publicaciones</a>
     <a routerLink="/mis-solicitudes" routerLinkActive="activo">📨 Mis solicitudes</a>
     <a routerLink="/entregas" routerLinkActive="activo">🤝 Entregas</a>
+    @if (auth.esAdministrador()) {
+      <a routerLink="/admin/usuarios" routerLinkActive="activo">👥 Usuarios</a>
+    }
   } @else {
     <a routerLink="/login" routerLinkActive="activo">🔑 Iniciar sesión</a>
     <a routerLink="/registro" routerLinkActive="activo">📝 Registrarse</a>
